@@ -1,20 +1,22 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Criando e testando containers Docker
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Criar rede docker para sistema IBPF
+```
+docker network create ibpf-net
+```
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## ibpf-config-server - Dockerfile
+```
+FROM openjdk:11
+VOLUME /tmp
+EXPOSE 8888
+ADD ./target/ibpf-config-server-0.0.1-SNAPSHOT.jar ibpf-config-server.jar
+ENTRYPOINT ["java","-jar","/ibpf-config-server.jar"]
+``` 
+```
+mvnw clean package
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+docker build -t ibpf-config-server:v1 .
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+docker run -p 8888:8888 --name ibpf-config-server --network ibpf-net -e GITHUB_USER=<USER> -e GITHUB_PASS=<PASSWORD> ibpf-config-server:v1
+```
