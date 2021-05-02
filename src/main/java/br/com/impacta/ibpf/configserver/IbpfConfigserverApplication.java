@@ -9,6 +9,7 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 public class IbpfConfigserverApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(IbpfConfigserverApplication.class, args);
     }
 
